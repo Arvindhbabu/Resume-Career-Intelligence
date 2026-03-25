@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: resumeiq
+    runtime: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python -m spacy download en_core_web_sm
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: resumeiq-db
+          property: connectionString
+      # Uncomment and add your AI key:
+      # - key: GEMINI_API_KEY
+      #   sync: false
+
+databases:
+  - name: resumeiq-db
+    databaseName: resumeiq
+    plan: free

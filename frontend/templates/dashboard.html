@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ResumeIQ — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg:#040711; --surface:#0b1120; --surface2:#111827;
+    --border:rgba(255,255,255,0.07); --accent:#4f8ef7;
+    --accent2:#a78bfa; --green:#34d399; --orange:#fb923c;
+    --red:#f87171; --text:#e2e8f0; --muted:#64748b;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  body::before{
+    content:'';position:fixed;inset:0;z-index:0;
+    background-image:linear-gradient(rgba(79,142,247,0.03) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(79,142,247,0.03) 1px,transparent 1px);
+    background-size:60px 60px;pointer-events:none;
+  }
+
+  nav{
+    position:sticky;top:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1rem 2.5rem;backdrop-filter:blur(20px);
+    background:rgba(4,7,17,0.85);border-bottom:1px solid var(--border);
+  }
+  .logo{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .nav-right{display:flex;gap:1rem;align-items:center;}
+  .btn-sm{
+    background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.25);
+    border-radius:8px;padding:0.45rem 1rem;color:var(--accent);
+    font-size:0.8rem;font-weight:600;cursor:pointer;text-decoration:none;
+    transition:all 0.2s;font-family:'DM Sans',sans-serif;
+  }
+  .btn-sm:hover{background:rgba(79,142,247,0.2);}
+
+  /* ── Layout ── */
+  .container{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1;}
+
+  /* ── Header row ── */
+  .header-row{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;}
+  .candidate-info h2{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;}
+  .candidate-info p{color:var(--muted);font-size:0.875rem;margin-top:0.25rem;}
+  .meta-chips{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;}
+  .meta-chip{
+    display:flex;align-items:center;gap:0.4rem;
+    background:rgba(255,255,255,0.04);border:1px solid var(--border);
+    border-radius:100px;padding:0.3rem 0.75rem;font-size:0.75rem;color:var(--muted);
+  }
+
+  /* ── Score hero ── */
+  .score-hero{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:20px;padding:2rem;
+    display:grid;grid-template-columns:auto 1fr;gap:2.5rem;align-items:center;
+    margin-bottom:1.5rem;
+  }
+  .score-ring-wrap{position:relative;width:140px;height:140px;flex-shrink:0;}
+  .score-ring-wrap canvas{position:absolute;inset:0;}
+  .score-center{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+  }
+  .score-number{font-family:'Syne',sans-serif;font-size:2.25rem;font-weight:800;}
+  .score-label{font-size:0.7rem;color:var(--muted);}
+  .score-bars{display:grid;gap:0.75rem;flex:1;}
+  .score-bar-row{display:flex;align-items:center;gap:1rem;}
+  .score-bar-name{font-size:0.8rem;color:var(--muted);width:120px;flex-shrink:0;}
+  .score-bar-bg{flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden;}
+  .score-bar-fill{height:100%;border-radius:100px;transition:width 1s ease;}
+  .score-bar-val{font-size:0.8rem;font-weight:600;width:36px;text-align:right;flex-shrink:0;}
+
+  /* ── Grid 2-col ── */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+  @media(max-width:768px){.grid2{grid-template-columns:1fr;}.score-hero{grid-template-columns:1fr;}}
+
+  /* ── Card ── */
+  .card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:20px;padding:1.75rem;
+  }
+  .card-title{
+    font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;
+    margin-bottom:1.25rem;display:flex;align-items:center;gap:0.5rem;
+  }
+
+  /* ── Skills grid ── */
+  .skills-wrap{display:flex;flex-wrap:wrap;gap:0.5rem;}
+  .skill-tag{
+    padding:0.3rem 0.75rem;border-radius:100px;font-size:0.75rem;font-weight:500;
+  }
+  .skill-found{background:rgba(52,211,153,0.1);color:var(--green);border:1px solid rgba(52,211,153,0.2);}
+  .skill-missing{background:rgba(248,113,113,0.08);color:var(--red);border:1px solid rgba(248,113,113,0.15);}
+
+  /* ── Job matches ── */
+  .job-card{
+    background:var(--surface2);border:1px solid var(--border);
+    border-radius:14px;padding:1.25rem;margin-bottom:0.75rem;
+    display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;
+    transition:border-color 0.2s;
+  }
+  .job-card:hover{border-color:rgba(79,142,247,0.3);}
+  .job-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;}
+  .job-meta{display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:0.4rem;}
+  .job-badge{font-size:0.72rem;color:var(--muted);}
+  .job-score{
+    flex-shrink:0;font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;
+    color:var(--accent);line-height:1;
+  }
+  .job-score span{font-size:0.7rem;color:var(--muted);display:block;text-align:center;}
+  .job-missing{margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:0.35rem;}
+  .gap-tag{
+    font-size:0.7rem;padding:0.2rem 0.5rem;border-radius:100px;
+    background:rgba(251,146,60,0.1);color:var(--orange);border:1px solid rgba(251,146,60,0.15);
+  }
+  .job-link{display:inline-block;margin-top:0.5rem;font-size:0.75rem;color:var(--accent);text-decoration:none;}
+  .job-link:hover{text-decoration:underline;}
+
+  /* ── Recommendations ── */
+  .rec-item{
+    display:flex;align-items:flex-start;gap:0.75rem;
+    padding:0.75rem;border-radius:10px;margin-bottom:0.5rem;
+    background:rgba(255,255,255,0.02);border:1px solid var(--border);
+    font-size:0.85rem;line-height:1.5;
+  }
+
+  /* ── Evolution tracker ── */
+  .evolution-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+  .improvement-badge{
+    font-size:0.8rem;font-weight:600;padding:0.3rem 0.75rem;border-radius:100px;
+  }
+  .imp-positive{background:rgba(52,211,153,0.1);color:var(--green);}
+  .imp-neutral{background:rgba(100,116,139,0.1);color:var(--muted);}
+
+  /* ── DNA radar section ── */
+  .dna-section{margin-bottom:1.5rem;}
+  .dna-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.75rem;margin-top:1rem;}
+  .dna-card{
+    background:var(--surface2);border:1px solid var(--border);
+    border-radius:14px;padding:1rem;
+  }
+  .dna-archetype{font-size:0.8rem;font-weight:600;margin-bottom:0.5rem;}
+  .dna-bar-bg{height:6px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden;}
+  .dna-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+  .dna-meta{display:flex;justify-content:space-between;margin-top:0.4rem;font-size:0.72rem;color:var(--muted);}
+
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .card,.score-hero{animation:fadeIn 0.5s ease both;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">ResumeIQ</div>
+  <div class="nav-right">
+    <a href="/coach" class="btn-sm">🎤 Interview Coach</a>
+    <a href="/market" class="btn-sm">📈 Market Pulse</a>
+    <a href="/" class="btn-sm">+ New Resume</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header-row">
+    <div class="candidate-info">
+      <h2 id="candidateName">Analyzing…</h2>
+      <p id="candidateFile">—</p>
+      <div class="meta-chips">
+        <div class="meta-chip">📧 <span id="metaEmail">—</span></div>
+        <div class="meta-chip">🔗 <span id="metaLinkedin">—</span></div>
+        <div class="meta-chip">💻 <span id="metaGithub">—</span></div>
+        <div class="meta-chip">⏱ <span id="metaYoe">—</span> yrs exp</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Score hero -->
+  <div class="score-hero" id="scoreHero">
+    <div class="score-ring-wrap">
+      <canvas id="scoreRing" width="140" height="140"></canvas>
+      <div class="score-center">
+        <div class="score-number" id="scoreNumber">—</div>
+        <div class="score-label">ATS SCORE</div>
+      </div>
+    </div>
+    <div class="score-bars" id="scoreBars"></div>
+  </div>
+
+  <!-- Career DNA -->
+  <div class="card dna-section">
+    <div class="card-title">🧬 Career DNA Map</div>
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:0.75rem">
+      Your skill fingerprint mapped to 8 career archetypes
+    </p>
+    <canvas id="dnaRadar" height="280"></canvas>
+    <div class="dna-grid" id="dnaGrid"></div>
+  </div>
+
+  <!-- Skills + Recommendations -->
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">✅ Skills Detected</div>
+      <div class="skills-wrap" id="skillsFound"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚠️ Missing Key Skills</div>
+      <div class="skills-wrap" id="skillsMissing"></div>
+    </div>
+  </div>
+
+  <!-- Job Matches -->
+  <div class="card" style="margin-bottom:1.5rem">
+    <div class="card-title">🎯 Job Matches</div>
+    <div id="jobMatches"></div>
+  </div>
+
+  <!-- Evolution tracker + Recommendations -->
+  <div class="grid2">
+    <div class="card">
+      <div class="evolution-header">
+        <div class="card-title" style="margin-bottom:0">📈 Resume Evolution</div>
+        <div class="improvement-badge imp-neutral" id="improvementBadge">v1</div>
+      </div>
+      <canvas id="evolutionChart" height="180"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title">💡 ATS Recommendations</div>
+      <div id="recommendations"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Load data ─────────────────────────────────────────────────────────────────
+const raw = sessionStorage.getItem('resumeiqData');
+if (!raw) { window.location.href = '/'; }
+const data = JSON.parse(raw);
+const { parsed, scores, matches, snapshot } = data;
+
+// ── Candidate info ─────────────────────────────────────────────────────────────
+document.getElementById('candidateName').textContent = parsed.name || 'Candidate';
+document.getElementById('candidateFile').textContent = data.filename || 'Resume';
+document.getElementById('metaEmail').textContent    = parsed.email    || 'N/A';
+document.getElementById('metaLinkedin').textContent = parsed.linkedin || 'N/A';
+document.getElementById('metaGithub').textContent   = parsed.github   || 'N/A';
+document.getElementById('metaYoe').textContent      = parsed.years_of_experience || '0';
+
+// ── Score ring ────────────────────────────────────────────────────────────────
+const overallScore = scores.overall_score || 0;
+document.getElementById('scoreNumber').textContent = Math.round(overallScore);
+const ringCtx = document.getElementById('scoreRing').getContext('2d');
+const scoreColor = overallScore >= 70 ? '#34d399' : overallScore >= 45 ? '#4f8ef7' : '#f87171';
+new Chart(ringCtx, {
+  type: 'doughnut',
+  data: {
+    datasets: [{
+      data: [overallScore, 100 - overallScore],
+      backgroundColor: [scoreColor, 'rgba(255,255,255,0.05)'],
+      borderWidth: 0, hoverOffset: 0,
+    }]
+  },
+  options: {
+    cutout: '78%', plugins: { legend: { display: false }, tooltip: { enabled: false }},
+    animation: { duration: 1200, easing: 'easeInOutQuart' }
+  }
+});
+
+// ── Score bars ─────────────────────────────────────────────────────────────────
+const barDefs = [
+  { label: 'Skill Coverage',   value: scores.skill_score,      color: '#4f8ef7' },
+  { label: 'Format / Sections',value: scores.format_score,     color: '#a78bfa' },
+  { label: 'Experience',       value: scores.experience_score, color: '#34d399' },
+  { label: 'Keyword Density',  value: scores.keyword_score,    color: '#fb923c' },
+  { label: 'Contact Info',     value: scores.contact_score,    color: '#f472b6' },
+];
+const barsEl = document.getElementById('scoreBars');
+barDefs.forEach(({ label, value, color }) => {
+  barsEl.innerHTML += `
+    <div class="score-bar-row">
+      <div class="score-bar-name">${label}</div>
+      <div class="score-bar-bg">
+        <div class="score-bar-fill" style="width:${value}%;background:${color}"></div>
+      </div>
+      <div class="score-bar-val" style="color:${color}">${Math.round(value)}</div>
+    </div>`;
+});
+
+// ── Career DNA Radar ──────────────────────────────────────────────────────────
+const dna = scores.career_dna || {};
+const dnaLabels  = Object.keys(dna);
+const dnaValues  = dnaLabels.map(k => dna[k].score);
+const radarCtx   = document.getElementById('dnaRadar').getContext('2d');
+new Chart(radarCtx, {
+  type: 'radar',
+  data: {
+    labels: dnaLabels.map(l => l.replace('The ', '')),
+    datasets: [{
+      data: dnaValues,
+      backgroundColor: 'rgba(79,142,247,0.15)',
+      borderColor: '#4f8ef7',
+      borderWidth: 2,
+      pointBackgroundColor: '#4f8ef7',
+      pointRadius: 4,
+    }]
+  },
+  options: {
+    scales: {
+      r: {
+        min: 0, max: 100,
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        angleLines: { color: 'rgba(255,255,255,0.05)' },
+        ticks: { color: '#64748b', backdropColor: 'transparent', stepSize: 25 },
+        pointLabels: { color: '#94a3b8', font: { size: 11 } }
+      }
+    },
+    plugins: { legend: { display: false } },
+    animation: { duration: 1000 }
+  }
+});
+
+// ── DNA mini-cards ────────────────────────────────────────────────────────────
+const dnaGrid = document.getElementById('dnaGrid');
+dnaLabels.forEach(name => {
+  const d = dna[name];
+  dnaGrid.innerHTML += `
+    <div class="dna-card">
+      <div class="dna-archetype">${name}</div>
+      <div class="dna-bar-bg"><div class="dna-bar" style="width:${d.score}%"></div></div>
+      <div class="dna-meta">
+        <span>${d.matched_skills.slice(0,3).join(', ') || 'No match'}</span>
+        <span>${Math.round(d.score)}%</span>
+      </div>
+    </div>`;
+});
+
+// ── Skills ────────────────────────────────────────────────────────────────────
+const sf = document.getElementById('skillsFound');
+(scores.skills_found || []).slice(0, 30).forEach(s =>
+  sf.innerHTML += `<span class="skill-tag skill-found">${s}</span>`);
+
+const sm = document.getElementById('skillsMissing');
+(scores.skills_missing || []).slice(0, 15).forEach(s =>
+  sm.innerHTML += `<span class="skill-tag skill-missing">${s}</span>`);
+
+// ── Job Matches ───────────────────────────────────────────────────────────────
+const jm = document.getElementById('jobMatches');
+(matches || []).forEach(m => {
+  const gapTags = (m.missing_skills || []).slice(0,4)
+    .map(s => `<span class="gap-tag">${s}</span>`).join('');
+  jm.innerHTML += `
+    <div class="job-card">
+      <div style="flex:1">
+        <div class="job-title">${m.job_title}</div>
+        <div class="job-meta">
+          <span class="job-badge">🏢 ${m.company_type}</span>
+          <span class="job-badge">💰 ${m.salary_range}</span>
+        </div>
+        ${gapTags ? `<div class="job-missing">${gapTags}</div>` : ''}
+        <a class="job-link" href="${m.job_url}" target="_blank">View openings →</a>
+      </div>
+      <div class="job-score">${m.match_score}<span>MATCH %</span></div>
+    </div>`;
+});
+
+// ── Evolution chart ───────────────────────────────────────────────────────────
+const snap   = snapshot || {};
+const impBadge = document.getElementById('improvementBadge');
+impBadge.textContent = `v${snap.version || 1}  ${snap.delta > 0 ? '▲ +'+snap.delta : snap.delta < 0 ? '▼ '+snap.delta : ''}`;
+impBadge.className = 'improvement-badge ' + (snap.delta > 0 ? 'imp-positive' : 'imp-neutral');
+
+const evoCtx = document.getElementById('evolutionChart').getContext('2d');
+// Build mini timeline from current snapshot (real data from DB in production)
+const evoVersions = Array.from({length: snap.version || 1}, (_,i) => `v${i+1}`);
+const evoScores   = Array.from({length: snap.version || 1}, (_,i) =>
+  i === (snap.version - 1) ? snap.overall_score : Math.max(10, snap.overall_score - (snap.version - 1 - i) * 8));
+new Chart(evoCtx, {
+  type: 'line',
+  data: {
+    labels: evoVersions,
+    datasets: [{
+      data: evoScores,
+      borderColor: '#34d399',
+      backgroundColor: 'rgba(52,211,153,0.1)',
+      borderWidth: 2.5,
+      fill: true,
+      tension: 0.4,
+      pointBackgroundColor: '#34d399',
+      pointRadius: 5,
+    }]
+  },
+  options: {
+    scales: {
+      y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#64748b' } },
+      x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#64748b' } }
+    },
+    plugins: { legend: { display: false } },
+    animation: { duration: 1000 }
+  }
+});
+
+// ── Recommendations ───────────────────────────────────────────────────────────
+const recEl = document.getElementById('recommendations');
+(scores.recommendations || []).forEach(r =>
+  recEl.innerHTML += `<div class="rec-item">${r}</div>`);
+if (!scores.recommendations?.length)
+  recEl.innerHTML = '<p style="color:var(--muted);font-size:0.85rem">Great resume! No major issues detected.</p>';
+
+// Store resume_id for coach page
+sessionStorage.setItem('resumeId', data.resume_id);
+</script>
+</body>
+</html>

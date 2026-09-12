@@ -1,0 +1,256 @@
+{
+  "version": "2.0",
+  "description": "ResumeIQ Skill Ontology — Hierarchical skill graph for intelligent skill resolution",
+  "taxonomy": {
+    "artificial_intelligence": {
+      "display_name": "Artificial Intelligence",
+      "children": {
+        "machine_learning": {
+          "display_name": "Machine Learning",
+          "skills": ["machine learning", "supervised learning", "unsupervised learning", "semi-supervised learning", "feature engineering", "model selection", "hyperparameter tuning", "cross-validation", "a/b testing", "ensemble methods"],
+          "children": {
+            "deep_learning": {
+              "display_name": "Deep Learning",
+              "skills": ["deep learning", "neural networks", "backpropagation", "transfer learning", "fine-tuning", "model distillation"],
+              "children": {
+                "computer_vision": {
+                  "display_name": "Computer Vision",
+                  "skills": ["computer vision", "cnn", "convolutional neural network", "image classification", "object detection", "image segmentation", "yolo", "resnet", "vgg", "opencv", "gan", "generative adversarial network", "stable diffusion", "image generation"]
+                },
+                "nlp": {
+                  "display_name": "Natural Language Processing",
+                  "skills": ["nlp", "natural language processing", "text classification", "sentiment analysis", "named entity recognition", "ner", "pos tagging", "text summarization", "machine translation", "question answering", "text generation", "word embeddings", "word2vec", "glove", "tokenization"]
+                },
+                "sequence_modeling": {
+                  "display_name": "Sequence Modeling",
+                  "skills": ["rnn", "recurrent neural network", "lstm", "gru", "sequence to sequence", "time series forecasting", "attention mechanism"]
+                },
+                "transformers": {
+                  "display_name": "Transformers & LLMs",
+                  "skills": ["transformers", "bert", "gpt", "t5", "llama", "mistral", "llm", "large language model", "prompt engineering", "fine-tuning llm", "rlhf", "instruction tuning", "lora", "qlora", "hugging face"]
+                },
+                "generative_ai": {
+                  "display_name": "Generative AI",
+                  "skills": ["generative ai", "genai", "rag", "retrieval augmented generation", "langchain", "llamaindex", "vector database", "embedding", "semantic search", "ai agents", "function calling", "tool use"]
+                }
+              }
+            },
+            "classical_ml": {
+              "display_name": "Classical ML",
+              "skills": ["linear regression", "logistic regression", "decision tree", "random forest", "svm", "support vector machine", "knn", "k-nearest neighbors", "naive bayes", "gradient boosting", "xgboost", "lightgbm", "catboost", "adaboost"]
+            },
+            "reinforcement_learning": {
+              "display_name": "Reinforcement Learning",
+              "skills": ["reinforcement learning", "q-learning", "deep q-network", "dqn", "policy gradient", "actor-critic", "ppo", "reward shaping", "multi-agent rl"]
+            },
+            "mlops": {
+              "display_name": "MLOps",
+              "skills": ["mlops", "mlflow", "kubeflow", "bentoml", "model serving", "model monitoring", "model versioning", "feature store", "experiment tracking", "model registry", "ml pipeline", "data drift detection"]
+            }
+          }
+        },
+        "data_science": {
+          "display_name": "Data Science & Statistics",
+          "skills": ["statistics", "probability", "hypothesis testing", "bayesian statistics", "regression analysis", "time series analysis", "exploratory data analysis", "eda", "data cleaning", "data wrangling", "data preprocessing"],
+          "children": {
+            "analytics": {
+              "display_name": "Analytics & BI",
+              "skills": ["data analysis", "business intelligence", "dashboarding", "kpi tracking", "cohort analysis", "funnel analysis", "retention analysis", "predictive analytics"]
+            }
+          }
+        }
+      }
+    },
+    "programming": {
+      "display_name": "Programming Languages",
+      "children": {
+        "general_purpose": {
+          "display_name": "General Purpose",
+          "skills": ["python", "java", "c++", "c#", "go", "golang", "rust", "kotlin", "swift", "scala", "ruby", "perl", "lua"]
+        },
+        "web_languages": {
+          "display_name": "Web Languages",
+          "skills": ["javascript", "typescript", "php", "html", "css", "sass", "less"]
+        },
+        "scripting": {
+          "display_name": "Scripting & Shell",
+          "skills": ["bash", "shell", "powershell", "zsh", "awk", "sed"]
+        },
+        "data_languages": {
+          "display_name": "Data Languages",
+          "skills": ["r", "julia", "matlab", "sas", "stata", "spss"]
+        },
+        "query_languages": {
+          "display_name": "Query Languages",
+          "skills": ["sql", "hql", "sparql", "cypher", "graphql"]
+        }
+      }
+    },
+    "data_engineering": {
+      "display_name": "Data Engineering",
+      "children": {
+        "big_data": {
+          "display_name": "Big Data Processing",
+          "skills": ["spark", "apache spark", "pyspark", "hadoop", "mapreduce", "hdfs", "hive", "pig", "flink", "apache flink", "beam", "apache beam"]
+        },
+        "streaming": {
+          "display_name": "Stream Processing",
+          "skills": ["kafka", "apache kafka", "rabbitmq", "kinesis", "pub/sub", "event streaming", "real-time processing", "storm"]
+        },
+        "orchestration": {
+          "display_name": "Workflow Orchestration",
+          "skills": ["airflow", "apache airflow", "dagster", "prefect", "luigi", "step functions", "argo workflows", "cron"]
+        },
+        "etl": {
+          "display_name": "ETL & Data Pipelines",
+          "skills": ["etl", "elt", "data pipeline", "data integration", "data ingestion", "dbt", "fivetran", "airbyte", "talend", "informatica"]
+        },
+        "data_warehouse": {
+          "display_name": "Data Warehousing",
+          "skills": ["data warehouse", "snowflake", "bigquery", "redshift", "databricks", "delta lake", "data lakehouse", "data lake", "data modeling", "dimensional modeling", "star schema"]
+        }
+      }
+    },
+    "cloud_devops": {
+      "display_name": "Cloud & DevOps",
+      "children": {
+        "aws": {
+          "display_name": "Amazon Web Services",
+          "skills": ["aws", "ec2", "s3", "lambda", "sagemaker", "glue", "emr", "rds", "dynamodb", "cloudformation", "iam", "vpc", "ecs", "eks", "fargate", "step functions", "sqs", "sns", "cloudwatch"]
+        },
+        "gcp": {
+          "display_name": "Google Cloud Platform",
+          "skills": ["gcp", "google cloud", "bigquery", "cloud functions", "dataflow", "vertex ai", "cloud run", "gke", "cloud storage", "pub/sub", "dataproc"]
+        },
+        "azure": {
+          "display_name": "Microsoft Azure",
+          "skills": ["azure", "azure ml", "azure devops", "azure functions", "cosmos db", "azure data factory", "azure databricks", "azure synapse"]
+        },
+        "containers": {
+          "display_name": "Containers & Orchestration",
+          "skills": ["docker", "kubernetes", "k8s", "helm", "docker compose", "container registry", "container orchestration", "openshift", "podman"]
+        },
+        "cicd": {
+          "display_name": "CI/CD & Automation",
+          "skills": ["ci/cd", "github actions", "gitlab ci", "jenkins", "circleci", "travis ci", "argo cd", "spinnaker", "continuous integration", "continuous deployment"]
+        },
+        "iac": {
+          "display_name": "Infrastructure as Code",
+          "skills": ["terraform", "ansible", "chef", "puppet", "cloudformation", "pulumi", "infrastructure as code"]
+        },
+        "monitoring": {
+          "display_name": "Monitoring & Observability",
+          "skills": ["prometheus", "grafana", "datadog", "new relic", "elk stack", "elasticsearch", "logstash", "kibana", "splunk", "jaeger", "opentelemetry"]
+        }
+      }
+    },
+    "databases": {
+      "display_name": "Databases",
+      "children": {
+        "relational": {
+          "display_name": "Relational Databases",
+          "skills": ["postgresql", "mysql", "oracle", "sql server", "sqlite", "mariadb", "cockroachdb"]
+        },
+        "nosql": {
+          "display_name": "NoSQL Databases",
+          "skills": ["mongodb", "cassandra", "dynamodb", "couchdb", "hbase", "firestore"]
+        },
+        "cache": {
+          "display_name": "Caching & In-Memory",
+          "skills": ["redis", "memcached", "hazelcast"]
+        },
+        "search": {
+          "display_name": "Search Engines",
+          "skills": ["elasticsearch", "solr", "opensearch", "algolia", "meilisearch"]
+        },
+        "graph": {
+          "display_name": "Graph Databases",
+          "skills": ["neo4j", "neptune", "arangodb", "dgraph", "tigergraph"]
+        },
+        "vector_db": {
+          "display_name": "Vector Databases",
+          "skills": ["faiss", "pinecone", "weaviate", "milvus", "qdrant", "chroma", "chromadb", "pgvector"]
+        }
+      }
+    },
+    "web_development": {
+      "display_name": "Web Development",
+      "children": {
+        "frontend": {
+          "display_name": "Frontend Frameworks",
+          "skills": ["react", "reactjs", "next.js", "nextjs", "angular", "vue", "vuejs", "svelte", "nuxt", "gatsby", "remix"]
+        },
+        "backend_frameworks": {
+          "display_name": "Backend Frameworks",
+          "skills": ["flask", "django", "fastapi", "express", "express.js", "nestjs", "spring boot", "rails", "laravel", "gin", "fiber"]
+        },
+        "api": {
+          "display_name": "APIs & Protocols",
+          "skills": ["rest api", "graphql", "grpc", "websocket", "api design", "openapi", "swagger", "api gateway"]
+        },
+        "frontend_tools": {
+          "display_name": "Frontend Tooling",
+          "skills": ["webpack", "vite", "babel", "eslint", "prettier", "tailwind", "tailwindcss", "bootstrap", "material ui", "chakra ui", "styled components"]
+        }
+      }
+    },
+    "visualization": {
+      "display_name": "Data Visualization",
+      "skills": ["data visualization"],
+      "children": {
+        "tools": {
+          "display_name": "BI Tools",
+          "skills": ["tableau", "power bi", "looker", "metabase", "mode", "superset", "qlik"]
+        },
+        "libraries": {
+          "display_name": "Visualization Libraries",
+          "skills": ["matplotlib", "seaborn", "plotly", "d3.js", "chart.js", "bokeh", "altair", "ggplot", "vega"]
+        }
+      }
+    },
+    "data_libraries": {
+      "display_name": "Data Science Libraries",
+      "skills": ["pandas", "numpy", "scipy", "scikit-learn", "sklearn", "statsmodels", "networkx", "dask", "vaex", "polars", "modin"]
+    },
+    "dl_frameworks": {
+      "display_name": "Deep Learning Frameworks",
+      "skills": ["tensorflow", "pytorch", "keras", "jax", "mxnet", "caffe", "onnx", "torchvision", "torchaudio", "torchtext"]
+    },
+    "security": {
+      "display_name": "Security & Compliance",
+      "skills": ["cybersecurity", "owasp", "penetration testing", "vulnerability assessment", "soc2", "gdpr", "hipaa", "encryption", "oauth", "jwt", "ssl/tls"]
+    },
+    "soft_skills": {
+      "display_name": "Soft Skills & Methodologies",
+      "skills": ["leadership", "communication", "teamwork", "problem solving", "agile", "scrum", "kanban", "project management", "mentoring", "critical thinking", "stakeholder management", "cross-functional collaboration", "presentation skills", "technical writing"]
+    }
+  },
+  "equivalences": {
+    "python": ["py", "python3", "python 3"],
+    "javascript": ["js", "ecmascript", "es6"],
+    "typescript": ["ts"],
+    "kubernetes": ["k8s", "kube"],
+    "machine learning": ["ml"],
+    "deep learning": ["dl"],
+    "natural language processing": ["nlp"],
+    "computer vision": ["cv"],
+    "artificial intelligence": ["ai"],
+    "postgresql": ["postgres", "psql"],
+    "mongodb": ["mongo"],
+    "elasticsearch": ["elastic"],
+    "tensorflow": ["tf"],
+    "convolutional neural network": ["cnn"],
+    "recurrent neural network": ["rnn"],
+    "long short-term memory": ["lstm"],
+    "large language model": ["llm"],
+    "retrieval augmented generation": ["rag"],
+    "continuous integration": ["ci"],
+    "continuous deployment": ["cd"],
+    "amazon web services": ["aws"],
+    "google cloud platform": ["gcp"],
+    "react": ["reactjs", "react.js"],
+    "node.js": ["nodejs", "node"],
+    "docker": ["containerization"],
+    "scikit-learn": ["sklearn"]
+  }
+}

@@ -1,37 +1,32 @@
-version: "3.9"
-
 services:
   web:
     build:
       context: ..
       dockerfile: docker/Dockerfile
     ports:
-      - "5000:5000"
+      - "8000:8000"
     environment:
-      - FLASK_DEBUG=false
-      - DATABASE_URL=postgresql://resumeiq:secret@db:5432/resumeiq
-      - SECRET_KEY=change-me-in-production
-      # - GEMINI_API_KEY=your-key-here
-      # - OPENAI_API_KEY=your-key-here
+      - DATABASE_URL=postgresql://resumeiq:resumeiq@db:5432/resumeiq
+      - SECRET_KEY=change-me-in-prod
+      - EMBEDDING_MODEL=all-MiniLM-L6-v2
     depends_on:
-      db:
-        condition: service_healthy
-    restart: unless-stopped
+      - db
+    volumes:
+      - faiss_data:/app/data/faiss_index
+      - upload_data:/app/data/uploads
 
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: resumeiq
-      POSTGRES_PASSWORD: secret
       POSTGRES_DB: resumeiq
+      POSTGRES_USER: resumeiq
+      POSTGRES_PASSWORD: resumeiq
     volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U resumeiq"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
 volumes:
-  pgdata:
+  pg_data:
+  faiss_data:
+  upload_data:

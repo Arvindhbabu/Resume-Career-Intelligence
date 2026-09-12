@@ -1,0 +1,43 @@
+{
+  "taxonomy": {
+    "programming": {
+      "display_name": "Programming Languages",
+      "skills": ["python", "javascript", "typescript", "java", "c++", "c#", "go", "rust", "kotlin", "swift", "r", "scala", "php", "ruby", "perl", "bash", "shell"]
+    },
+    "data_science": {
+      "display_name": "Data Science & AI",
+      "skills": ["machine learning", "deep learning", "nlp", "computer vision", "statistics", "pandas", "numpy", "scikit-learn", "tensorflow", "pytorch", "keras", "xgboost", "lightgbm", "hugging face", "transformers", "bert", "gpt", "llm", "rag", "feature engineering", "model deployment", "mlops", "a/b testing"]
+    },
+    "data_engineering": {
+      "display_name": "Data Engineering",
+      "skills": ["spark", "hadoop", "kafka", "airflow", "dbt", "etl", "data pipeline", "data warehouse", "snowflake", "bigquery", "redshift", "databricks", "delta lake", "flink", "nifi", "luigi"]
+    },
+    "cloud_devops": {
+      "display_name": "Cloud & DevOps",
+      "skills": ["aws", "gcp", "azure", "ec2", "s3", "lambda", "cloud functions", "kubernetes", "docker", "terraform", "ci/cd", "github actions", "jenkins", "ansible", "helm", "microservices", "serverless"]
+    },
+    "databases": {
+      "display_name": "Databases & Storage",
+      "skills": ["sql", "mysql", "postgresql", "mongodb", "redis", "elasticsearch", "cassandra", "dynamodb", "sqlite", "oracle", "neo4j", "firebase"]
+    },
+    "web_frameworks": {
+      "display_name": "Web Frameworks & APIs",
+      "skills": ["flask", "django", "fastapi", "react", "angular", "vue", "node.js", "express", "html", "css", "rest api", "graphql", "websocket"]
+    },
+    "visualization": {
+      "display_name": "Data Visualization & BI",
+      "skills": ["tableau", "power bi", "matplotlib", "seaborn", "plotly", "d3.js", "looker", "metabase", "grafana"]
+    }
+  },
+  "equivalences": {
+    "python": ["py", "python3"],
+    "machine learning": ["ml"],
+    "deep learning": ["dl"],
+    "natural language processing": ["nlp"],
+    "postgresql": ["postgres", "pgsql"],
+    "kubernetes": ["k8s"],
+    "amazon web services": ["aws"],
+    "google cloud platform": ["gcp"],
+    "rest api": ["restful api", "rest apis"]
+  }
+}

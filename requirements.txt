@@ -1,26 +1,45 @@
-# ResumeIQ — Python Dependencies
-# Core
-flask==3.0.3
-flask-cors==4.0.1
-flask-sqlalchemy==3.1.1
-python-dotenv==1.0.1
-gunicorn==22.0.0
-werkzeug==3.0.3
+# ResumeIQ v2 — Python Dependencies
+# ══════════════════════════════════════════════════════
 
-# Resume Parsing
+# ── Core Framework ──────────────────────────────────
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
+pydantic==2.9.2
+python-dotenv==1.0.1
+
+# ── Database ────────────────────────────────────────
+sqlalchemy==2.0.35
+psycopg2-binary==2.9.9
+
+# ── Resume Parsing ──────────────────────────────────
 pdfplumber==0.11.4
 python-docx==1.1.2
 
-# NLP
+# ── NLP ─────────────────────────────────────────────
 spacy==3.7.5
 
-# ML
+# ── ML & Embeddings ─────────────────────────────────
 scikit-learn==1.5.1
 numpy==1.26.4
+sentence-transformers==3.1.1
+torch>=2.0.0
 
-# Optional: GenAI (uncomment as needed)
+# ── Vector Search ───────────────────────────────────
+faiss-cpu==1.8.0.post1
+
+# ── CORS ────────────────────────────────────────────
+# Built into FastAPI
+
+# ── GenAI (optional) ────────────────────────────────
 # google-generativeai==0.7.2
 # openai==1.40.0
 
-# Database (for production on Render)
-psycopg2-binary==2.9.9
+# ── Production ──────────────────────────────────────
+gunicorn==22.0.0
+
+
+#uvicorn backend.main:app --reload
+
+#cd frontend 
+#npm run dev
